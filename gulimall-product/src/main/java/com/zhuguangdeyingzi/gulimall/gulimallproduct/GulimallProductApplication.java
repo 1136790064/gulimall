@@ -1,5 +1,6 @@
 package com.zhuguangdeyingzi.gulimall.gulimallproduct;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -19,8 +20,13 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *          2、配置MyBatis-Plus
  *              1)、使用@MapperScan
  *              2)、告诉MyBatis-Plus，sql映射文件位置
+ * 2、逻辑删除
+ *      1)、配置全局的逻辑删除规则(可以省略)
+ *      2)、配置逻辑删除的主键(3.1.1开始可以省略)
+ *      3)、实体类字段上加上@TableLogic注解
  */
 @SpringBootApplication
+@MapperScan("com.zhuguangdeyingzi.gulimall.gulimallproduct.dao")
 @EnableDiscoveryClient
 public class GulimallProductApplication {
 
