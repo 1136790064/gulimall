@@ -4,6 +4,10 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         namespace: f2488c2e-1f15-46e9-9295-95f2d1ea18db
-        
+        extension-configs[0]:
+          data-id: oss.yml
+          group: DEFAULT_GROUP
+          refresh: true
+
   application:
     name: gulimall-third-party
