@@ -2,12 +2,14 @@ package com.zhuguangdeyingzi.gulimall.gulimallproduct.controller;
 
 import com.zhuguangdeyingzi.common.utils.PageUtils;
 import com.zhuguangdeyingzi.common.utils.R;
+import com.zhuguangdeyingzi.common.valid.AddGroup;
+import com.zhuguangdeyingzi.common.valid.UpdateGroup;
 import com.zhuguangdeyingzi.gulimall.gulimallproduct.entity.BrandEntity;
 import com.zhuguangdeyingzi.gulimall.gulimallproduct.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -29,8 +31,8 @@ public class BrandController {
      * 列表
      */
     @RequestMapping("/list")
-  //@RequiresPermissions("gulimallproduct:brand:list")
-    public R list(@RequestParam Map<String, Object> params){
+    //@RequiresPermissions("gulimallproduct:brand:list")
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = brandService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -42,8 +44,8 @@ public class BrandController {
      */
     @RequestMapping("/info/{brandId}")
     //@RequiresPermissions("gulimallproduct:brand:info")
-    public R info(@PathVariable("brandId") Long brandId){
-		BrandEntity brand = brandService.getById(brandId);
+    public R info(@PathVariable("brandId") Long brandId) {
+        BrandEntity brand = brandService.getById(brandId);
 
         return R.ok().put("brand", brand);
     }
@@ -53,7 +55,7 @@ public class BrandController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("gulimallproduct:brand:save")
-    public R save(@Valid @RequestBody BrandEntity brand /*, BindingResult bindingResult*/){
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand /*, BindingResult bindingResult*/) {
 //
 //        if (bindingResult.hasErrors()) {
 //            Map<String ,String > map = new HashMap<>();
@@ -68,7 +70,7 @@ public class BrandController {
 //            
 //            return R.error(400,"提交的数据不合法").put("data",map);
 //        }
-		brandService.save(brand);
+        brandService.save(brand);
 
         return R.ok();
     }
@@ -78,8 +80,8 @@ public class BrandController {
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("gulimallproduct:brand:update")
-    public R update(@Valid @RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
 
         return R.ok();
     }
@@ -89,8 +91,8 @@ public class BrandController {
      */
     @RequestMapping("/delete")
 //    @RequiresPermissions("gulimallproduct:brand:delete")
-    public R delete(@RequestBody Long[] brandIds){
-		brandService.removeByIds(Arrays.asList(brandIds));
+    public R delete(@RequestBody Long[] brandIds) {
+        brandService.removeByIds(Arrays.asList(brandIds));
 
         return R.ok();
     }
