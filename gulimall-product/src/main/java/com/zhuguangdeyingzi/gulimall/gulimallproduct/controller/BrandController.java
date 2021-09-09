@@ -1,21 +1,15 @@
 package com.zhuguangdeyingzi.gulimall.gulimallproduct.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.zhuguangdeyingzi.gulimall.gulimallproduct.entity.BrandEntity;
-import com.zhuguangdeyingzi.gulimall.gulimallproduct.service.BrandService;
 import com.zhuguangdeyingzi.common.utils.PageUtils;
 import com.zhuguangdeyingzi.common.utils.R;
+import com.zhuguangdeyingzi.gulimall.gulimallproduct.entity.BrandEntity;
+import com.zhuguangdeyingzi.gulimall.gulimallproduct.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -59,7 +53,21 @@ public class BrandController {
      */
     @RequestMapping("/save")
 //    @RequiresPermissions("gulimallproduct:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Valid @RequestBody BrandEntity brand /*, BindingResult bindingResult*/){
+//
+//        if (bindingResult.hasErrors()) {
+//            Map<String ,String > map = new HashMap<>();
+//            //1、获取校验的错误结果
+//            bindingResult.getFieldErrors().forEach((item)->{
+//                //FieldError 获取到错误提示
+//                String message = item.getDefaultMessage();
+//                //获取错误的属性名称
+//                String field = item.getField();
+//                map.put(field,message);
+//            });
+//            
+//            return R.error(400,"提交的数据不合法").put("data",map);
+//        }
 		brandService.save(brand);
 
         return R.ok();
@@ -70,7 +78,7 @@ public class BrandController {
      */
     @RequestMapping("/update")
 //    @RequiresPermissions("gulimallproduct:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Valid @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();

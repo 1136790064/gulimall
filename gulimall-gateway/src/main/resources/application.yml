@@ -15,13 +15,22 @@ spring:
         #          predicates:
         #            - Query=url,qq
         #            
+        #         按顺序以此进行判定，人人开源路径放到最下面，不然会覆盖
         - id: product_route
           uri: lb://gulimall-product
           predicates:
             - Path=/api/gulimallproduct/**
           filters:
             - RewritePath=/api/?(?<segment>.*),/$\{segment}
-            # http://localhost:88/apigulimallproduct/category/list/tree ==>http://localhost:10000/gulimallproduct/category/list/tree
+              # http://localhost:88/apigulimallproduct/category/list/tree ==>http://localhost:10000/gulimallproduct/category/list/tree
+
+        - id: third_party_route
+          uri: lb://gulimall-third-party #lb:负载均衡
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            #- RewritePath=/red/?(?<segment>.*), /$\{segment}
+            - RewritePath=/api/thirdparty/?(?<segment>.*),/$\{segment}
         # 注意是uri不是url
         - id: admin_route
           uri: lb://renren-fast #lb:负载均衡
@@ -32,6 +41,7 @@ spring:
             - RewritePath=/api/?(?<segment>.*),/renren-fast/$\{segment}
             # 前端项目发送请求，都要带上/api这个请求  
             # http://localhost:88/api/captcha.jpg ==> http://localhost:8080/renren-fast/captcha.jpg            
+
 
 
 
