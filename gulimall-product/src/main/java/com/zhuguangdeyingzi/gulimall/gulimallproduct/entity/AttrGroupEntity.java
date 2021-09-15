@@ -1,15 +1,15 @@
 package com.zhuguangdeyingzi.gulimall.gulimallproduct.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
-import lombok.Data;
-
 /**
  * 属性分组
- * 
+ *
  * @author lijun
  * @email 1136790064lijun@gmail.com
  * @date 2021-08-24 14:59:37
@@ -35,14 +35,20 @@ public class AttrGroupEntity implements Serializable {
 	/**
 	 * 描述
 	 */
-	private String descript;
-	/**
-	 * 组图标
-	 */
-	private String icon;
-	/**
-	 * 所属分类id
-	 */
-	private Long catelogId;
+    private String descript;
+    /**
+     * 组图标
+     */
+    private String icon;
+    /**
+     * 所属分类id
+     */
+    private Long catelogId;
+
+    /**
+     * 完整路径
+     */
+    @TableField(exist = false)//此字段在数据库中不存在
+    private Long[] catelogPath;
 
 }

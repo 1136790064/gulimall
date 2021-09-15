@@ -10,6 +10,7 @@ import com.zhuguangdeyingzi.gulimall.gulimallproduct.entity.CategoryEntity;
 import com.zhuguangdeyingzi.gulimall.gulimallproduct.service.CategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,8 +53,43 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void removeMenuByIds(List<Long> asList) {
         //TODO 1、检查当前删除的菜单，是否被别的地方引用
         //逻辑删除
-        
+
         baseMapper.deleteBatchIds(asList);
+    }
+
+    /**
+     * @param catelogId 所属分类id
+     * @return java.lang.Long[]
+     * @author 86138
+     * @date 2021/9/14 15:01
+     * @description: 找到catelogId的完整路径：[父/子/孙]
+     */
+    @Override
+    public Long[] findCatelogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        List<Long> parentPath = findParentPath(catelogId, paths);
+
+//        //逆序转换
+//        Collections.reverse(parentPath);
+
+        return parentPath.toArray(new Long[0]);
+    }
+
+    /**
+     * @param catelogId 所属分类id
+     * @return java.util.List<java.lang.Long>
+     * @author 86138
+     * @date 2021/9/14 15:13
+     * @description: 根据catelogId使用递归方法找出完整路径并封装在List集合中
+     */
+    public List<Long> findParentPath(Long catelogId, List<Long> paths) {
+        //1、收集当前节点id
+        paths.add(0, catelogId);
+        CategoryEntity byId = this.getById(catelogId);
+        if (byId.getParentCid() != 0) {
+            findParentPath(byId.getParentCid(), paths);
+        }
+        return paths;
     }
 
     /**
